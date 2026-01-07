@@ -115,7 +115,7 @@ function useBoardColumn(
           id: cardId,
           data: {
             column_id: targetColumnId,
-            position: "0", // TODO: Calculate proper position in target column
+            position: 0, // TODO: Calculate proper position in target column
           },
         });
 
