@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/collapsible";
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuAction,
   SidebarMenuButton,
@@ -18,6 +17,16 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { useLocation } from "react-router";
+
+const checkIsActive = (url: string, pathname: string) => {
+  const mainPath = pathname.split("/")[1];
+
+  console.log(url, "->", pathname);
+
+  if (mainPath === url) return true;
+  return false;
+};
 
 export function NavMain({
   items,
@@ -33,14 +42,19 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const pathname = useLocation().pathname;
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip={item.title}>
+              <SidebarMenuButton
+                isActive={checkIsActive(item.url, pathname)}
+                asChild
+                tooltip={item.title}
+              >
                 <a href={item.url}>
                   <item.icon />
                   <span>{item.title}</span>

@@ -1,11 +1,8 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "./components/AppSidebar";
 import { SiteHeader } from "./components/SiteHeader";
 import type { PropsWithChildren } from "react";
 
 export const iframeHeight = "800px";
-
-export const description = "A sidebar with a header and a search form.";
 
 export default function MainLayout({ children }: PropsWithChildren) {
   return (
@@ -13,7 +10,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
       <SidebarProvider className="flex flex-col">
         <SiteHeader />
         <div className="flex flex-1">
-          <AppSidebar />
+          {/*<AppSidebar />*/}
           <div className="w-full overflow-x-hidden">{children}</div>
           {!children && (
             <SidebarInset>
@@ -23,7 +20,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
                   <div className="bg-muted/50 aspect-video rounded-xl" />
                   <div className="bg-muted/50 aspect-video rounded-xl" />
                 </div>
-                <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
+                <div className="bg-muted/50 min-h-screen flex-1 rounded-xl md:min-h-min" />
               </div>
             </SidebarInset>
           )}

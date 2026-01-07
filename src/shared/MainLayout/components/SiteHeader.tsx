@@ -1,30 +1,24 @@
 "use client";
 
-import { SidebarIcon } from "lucide-react";
-
-import { SearchForm } from "./SeachForm";
-
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { useSidebar } from "@/components/ui/sidebar";
+import { Command } from "lucide-react";
+import { NavUser } from "./NavUser";
+import { useUserQuery } from "@/services/user";
 
 export function SiteHeader() {
-  const { toggleSidebar } = useSidebar();
+  const { data: user } = useUserQuery();
 
   return (
     <header className="bg-background sticky top-0 z-50 flex w-full items-center border-b">
-      <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
-        <Button
-          className="h-8 w-8"
-          variant="ghost"
-          size="icon"
-          onClick={toggleSidebar}
-        >
-          <SidebarIcon />
-        </Button>
-        <Separator orientation="vertical" className="mr-2 h-4" />
-        {/*<h4>Hey, Good Morning.</h4>*/}
-        <SearchForm className="w-full sm:ml-auto sm:w-auto" />
+      <div className="flex h-(--header-height) items-center gap-2 px-4 justify-between w-full">
+        <a href="#" className="flex gap-2">
+          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+            <Command className="size-4" />
+          </div>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-medium text-xl">Trakker.</span>
+          </div>
+        </a>
+        {user && <NavUser user={user} />}
       </div>
     </header>
   );

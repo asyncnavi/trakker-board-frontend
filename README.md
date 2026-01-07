@@ -1,75 +1,137 @@
-# React + TypeScript + Vite
+# Trakker - Board Management Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based frontend for managing Kanban-style boards with drag-and-drop functionality.
 
-Currently, two official plugins are available:
+## Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+# Install dependencies
+npm install
 
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Application runs at http://localhost:5173
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Features
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Email-based OTP authentication
+- Board management with custom backgrounds
+- Drag-and-drop cards between columns
+- Column reordering
+- Card comments
+- Markdown support for card descriptions
+- Dark mode support
+- Responsive design
+
+## Tech Stack
+
+- React 19
+- TypeScript
+- Vite
+- TanStack Query (data fetching)
+- React Hook Form (forms)
+- Zod (validation)
+- dnd-kit (drag and drop)
+- Radix UI (components)
+- Tailwind CSS
+- Zustand (state management)
+
+## Environment Setup
+
+Create `.env` file:
+
+```bash
+VITE_API_URL=http://localhost:4000
 ```
+
+For production, set your deployed backend URL:
+
+```bash
+VITE_API_URL=https://your-api.onrender.com
+```
+
+## Available Scripts
+
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run preview  # Preview production build
+npm run lint     # Run ESLint
+```
+
+## Project Structure
+
+```
+src/
+├── App/                    # App setup and routing
+├── components/
+│   └── ui/                 # Reusable UI components (Radix UI)
+├── pages/
+│   ├── auth/               # Login page
+│   ├── boards/
+│   │   ├── list/           # Board list page
+│   │   └── detail/         # Single board page
+│   └── NotFound/
+├── services/               # API calls and queries
+│   ├── auth/
+│   ├── board/
+│   ├── column/
+│   ├── card/
+│   ├── comment/
+│   └── user/
+├── shared/
+│   └── MainLayout/         # Layout and navigation
+├── stores/                 # Zustand stores
+└── types/                  # TypeScript types
+```
+
+## Authentication
+
+The app uses OTP (One-Time Password) email authentication:
+
+1. User enters email
+2. Backend sends 6-digit code
+3. User enters code
+4. JWT tokens returned
+5. Tokens stored in localStorage
+
+Access token expires in 24 hours. Refresh token used to get new access token.
+
+## API Integration
+
+API calls are centralized in `src/services/`:
+
+```typescript
+// Example: Fetch boards
+import { useBoards } from '@/services/board/board.query';
+
+function MyComponent() {
+  const { data: boards } = useBoards();
+  return <div>{boards?.map(...)}</div>;
+}
+```
+
+All API requests automatically include JWT token from localStorage.
+
+## Development
+
+See DEVELOPMENT.md for detailed development guide.
+
+## Deployment
+
+Application can be deployed to:
+- Vercel (recommended)
+- Netlify
+- Render Static Sites
+- Any static hosting service
+
+Build command: `npm run build`
+Output directory: `dist`
+
+Remember to set `VITE_API_URL` environment variable to your backend URL.
+
+## License
+
+MIT
